@@ -19,13 +19,16 @@ const CreatePost = () => {
       setLoading(true);
       try {
         setGenerateImg(true);
-        const response = await fetch("http://localhost:5000/api/v1/post", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(form),
-        });
+        const response = await fetch(
+          "https://aiimage-fqdx.onrender.com/api/v1/post",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(form),
+          }
+        );
         await response.json();
         navigate("/");
       } catch (error) {

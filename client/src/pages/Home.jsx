@@ -33,12 +33,15 @@ const Home = () => {
       setLoading(true);
 
       try {
-        const response = await fetch("http://localhost:5000/api/v1/post", {
-          method: "GET",
-          headers: {
-            "content-Type": "application/json",
-          },
-        });
+        const response = await fetch(
+          "https://aiimage-fqdx.onrender.com/api/v1/post",
+          {
+            method: "GET",
+            headers: {
+              "content-Type": "application/json",
+            },
+          }
+        );
         if (response.ok) {
           const results = await response.json();
           setAllPosts(results.data.reverse());
