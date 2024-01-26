@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { preview } from "../assets";
 import { getRandomPrompt } from "../utils";
 import { FormField, Loader } from "../components";
+import axios from "axios";
 const CreatePost = () => {
   const navigate = useNavigate();
   const [form, setForm] = useState({
@@ -13,14 +14,37 @@ const CreatePost = () => {
   const [generateImg, setGenerateImg] = useState(false);
   const [loading, setLoading] = useState(false);
   const handleSubmit = () => {};
-  const handleChange = (e) => {
-    setForm({ ...form, [e.target.name]: e.target.vale });
-  };
+  const handleChange = (e) =>
+    setForm({ ...form, [e.target.name]: e.target.value });
   const handleSurpriseMe = () => {
     const randomPrompt = getRandomPrompt(form.prompt);
     setForm({ ...form, prompt: randomPrompt });
   };
-  const generateImage = () => {};
+  const generateImage = async () => {
+    if (form.prompt) {
+      try {
+        setGenerateImg(true);
+        const response = await fetch("http://localhost:5000/api/v1/dalle", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            prompt: form.prompt,
+          }),
+        });
+        const data = await response.json();
+        setForm({ ...form, photo: `data:image/jpeg;base64,${data.photo}` });
+      } catch (err) {
+        alert(err);
+      } finally {
+        setGenerateImg(false);
+      }
+    } else {
+      alert("Please provide a prompt");
+    }
+  };
+
   return (
     <section>
       <div className="mx-w-7wl mx-auto">
@@ -45,9 +69,9 @@ const CreatePost = () => {
               handleChange={handleChange}
             />
             <FormField
-              labelName="Prompt"
+              labelName="prompt"
               type=" text"
-              name="Prompt"
+              name="prompt"
               placeholder="an armchair in the shape of an avocado"
               value={form.prompt}
               handleChange={handleChange}

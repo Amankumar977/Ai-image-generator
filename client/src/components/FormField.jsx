@@ -6,10 +6,9 @@ const FormField = ({
   name,
   placeholder,
   value,
-  handlehange,
+  handleChange,
   isSurpriseMe,
   handleSurpriseMe,
-  disable,
 }) => {
   return (
     <div>
@@ -34,7 +33,7 @@ const FormField = ({
         name={name}
         placeholder={placeholder}
         value={value}
-        onChange={handlehange}
+        onChange={handleChange}
         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-[#4649ff] focus:border-[#4649ff] outline-none block w-full p-3"
       />
     </div>
